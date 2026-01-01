@@ -1,0 +1,38 @@
+# ==========================================================
+# AI USAGE PERMISSIONS (ai.txt)
+# ==========================================================
+
+# Regola generale per tutti i bot di Intelligenza Artificiale
+User-agent: *
+
+# Divieti specifici per l'addestramento
+Disallow: /training
+Disallow: /fine-tuning
+Disallow: /validation
+Disallow: /embedding-generation
+
+# Divieto di inclusione in dataset per scopi commerciali e non
+Disallow: /dataset-inclusion
+
+# Divieto di utilizzo per la generazione di codice (Code Generation)
+Disallow: /inference-context
+
+# Riferimento alla licenza custom del progetto
+# (Assicurati che il percorso del file LICENSE sia corretto)
+License: https://github.com/TUO_UTENTE/TUO_REPO/blob/main/LICENSE
+
+# ==========================================================
+# Dichiarazione di Intento (Testo leggibile dagli umani)
+# ==========================================================
+# L'autore di questo software proibisce espressamente l'uso
+# del contenuto di questo repository per l'addestramento di
+# modelli di machine learning, in conformità con la licenza
+# allegata.
+
+# ===========================================================
+# Statement of Intent (Human-Readable Text)
+# ===========================================================
+#
+# The author of this software expressly prohibits the use
+# of the contents of this repository for training
+# machine learning models, in accordance with the attached license.
