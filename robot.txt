@@ -1,0 +1,15 @@
+# Blocca il bot di OpenAI (ChatGPT)
+User-agent: GPTBot
+Disallow: /
+
+# Blocca il bot di Google (Gemini)
+User-agent: Google-Extended
+Disallow: /
+
+# Blocca il bot di Anthropic (Claude)
+User-agent: anthropic-ai
+Disallow: /
+
+# Blocca il bot di Common Crawl (usato da quasi tutti i modelli open source)
+User-agent: CCBot
+Disallow: /

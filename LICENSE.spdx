@@ -1,0 +1,70 @@
+SPDXVersion: SPDX-2.3
+DataLicense: CC0-1.0
+SPDXID: SPDXRef-DOCUMENT
+DocumentName: blastbeat-NC-NoAI-CodebergRef-2025
+DocumentNamespace: https://codeberg.org/blastbeat/license/blastbeat-nc-noai-codebergref-2025
+Creator: Person: blastbeat
+Created: 2025-01-01T00:00:00Z
+
+##### Custom License #####
+
+LicenseID: LicenseRef-blastbeat-NC-NoAI-CodebergRef-2025
+LicenseName: blastbeat Non-Commercial No-AI Codeberg Reference License 2025
+ExtractedText: <text>
+Copyright © 2025 blastbeat
+All rights reserved.
+
+This software is provided as source-available and IS NOT open source software
+according to the Open Source Initiative (OSI) definition.
+
+1. Grant of Rights
+
+The author grants permission to:
+- view, study, and modify the source code;
+- use the software for personal, educational, research, or non-profit purposes.
+
+2. Prohibition of Commercial Use
+
+The software, in whole or in part, may NOT be used:
+- for direct sale of the software itself;
+- as part of a paid commercial product or service;
+- for commercial or professional activities intended for profit,
+
+without explicit written permission from the author.
+
+3. Reference Platform
+
+The official repository and primary source of the project is hosted on Codeberg.
+
+Forks, mirrors, and redistributions are permitted, provided that:
+- a clear reference to the official Codeberg repository is maintained;
+- the project is not presented as official unless maintained by the original author.
+
+4. Prohibition of Artificial Intelligence Use
+
+The use of this software, its source code, or any part thereof is strictly prohibited for:
+- training artificial intelligence models;
+- fine-tuning;
+- embedding generation;
+- creation or enrichment of datasets;
+- automated scraping for AI-related purposes,
+
+whether for commercial or non-commercial use.
+
+5. Attribution
+
+Any redistribution must retain:
+- this license text;
+- copyright notices;
+- the SPDX identifier.
+
+6. No Warranty
+
+The software is provided “AS IS”, without warranty of any kind, express or implied.
+The author shall not be liable for any damages arising from the use of the software.
+
+7. Termination
+
+Any violation of the terms of this license will result in the immediate
+and automatic termination of the rights granted herein.
+</text>
