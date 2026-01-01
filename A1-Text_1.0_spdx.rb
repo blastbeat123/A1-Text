@@ -3,7 +3,7 @@
 # encoding: utf-8 
 # frozen_string_literal: true
 
-# Autore: Giuseppe Bassan  2025
+# Autore: blastbeat  2025
 # Word Processor ispirato a C1-Text per Amiga
 # Versione GTK4
 
