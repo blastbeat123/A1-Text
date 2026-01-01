@@ -1,0 +1,118 @@
+blastbeat Non-Commercial No-AI Codeberg Reference License 2025
+SPDX-License-Identifier: LicenseRef-blastbeat-NC-NoAI-CodebergRef-2025
+
+🇮🇹 VERSIONE ITALIANA
+Licenza d’uso del software
+
+Copyright © 2025 blastbeat
+Tutti i diritti riservati.
+
+Il presente software è reso disponibile come source-available e NON è software open source
+secondo la definizione dell’Open Source Initiative (OSI).
+
+1. Concessione dei diritti
+
+   L’autore concede il diritto di:
+   visualizzare, studiare e modificare il codice sorgente;
+   utilizzare il software per scopi personali, educativi, di ricerca o non a scopo di lucro.
+
+2. Divieto di uso commerciale
+
+   È vietato utilizzare il software, in tutto o in parte:
+   per la vendita diretta del software stesso;
+   come parte di un prodotto o servizio commerciale a pagamento;
+   per attività commerciali o professionali con finalità di profitto,
+   senza esplicita autorizzazione scritta dell’autore.
+
+3. Piattaforma di riferimento
+
+   Il repository ufficiale e la fonte primaria del progetto è ospitato su Codeberg.
+   Fork, mirror e redistribuzioni sono consentiti, purché:
+   venga mantenuto un chiaro riferimento al repository ufficiale su Codeberg;
+   il progetto non venga presentato come ufficiale se non mantenuto dall’autore originale.
+
+4. Divieto di utilizzo per Intelligenza Artificiale
+
+   È severamente vietato utilizzare il software, il codice sorgente o parti di esso per:
+
+   - addestramento (training) di modelli di intelligenza artificiale;
+   - fine-tuning;
+   - generazione di embedding;
+   - creazione o arricchimento di dataset;
+   - scraping automatico a fini di AI,
+   - sia per scopi commerciali che non commerciali.
+
+5. Attribuzione
+
+   Qualsiasi redistribuzione deve mantenere:
+   il presente testo di licenza;
+   le note di copyright;
+   l’identificatore SPDX.
+
+6. Nessuna garanzia
+
+   Il software è fornito “COSÌ COM’È”, senza alcuna garanzia esplicita o implicita.
+   L’autore non è responsabile per eventuali danni derivanti dall’uso del software.
+
+7. Risoluzione
+
+   La violazione di uno qualsiasi dei termini della presente licenza comporta
+   la cessazione immediata e automatica dei diritti concessi.
+
+🇬🇧 ENGLISH VERSION
+Software License
+
+Copyright © 2025 blastbeat
+All rights reserved.
+
+This software is provided as source-available and IS NOT open source software
+according to the Open Source Initiative (OSI) definition.
+
+1. Grant of Rights
+
+   The author grants permission to:
+   view, study, and modify the source code;
+   use the software for personal, educational, research, or non-profit purposes.
+
+2. Prohibition of Commercial Use
+
+   The software, in whole or in part, may NOT be used:
+   for direct sale of the software itself;
+   as part of a paid commercial product or service;
+   for commercial or professional activities intended for profit,
+   without explicit written permission from the author.
+
+3. Reference Platform
+
+   The official repository and primary source of the project is hosted on Codeberg.
+   Forks, mirrors, and redistributions are permitted, provided that:
+   a clear reference to the official Codeberg repository is maintained;
+   the project is not presented as official unless maintained by the original author.
+
+4. Prohibition of Artificial Intelligence Use
+
+   The use of this software, its source code, or any part thereof is strictly prohibited for:
+
+   - training artificial intelligence models;
+   - fine-tuning;
+   - embedding generation;
+   - creation or enrichment of datasets;
+   - automated scraping for AI-related purposes,
+   - whether for commercial or non-commercial use.
+
+5. Attribution
+
+   Any redistribution must retain:
+   this license text;
+   copyright notices;
+   the SPDX identifier.
+
+6. No Warranty
+
+   The software is provided “AS IS”, without warranty of any kind, express or implied.
+   The author shall not be liable for any damages arising from the use of the software.
+
+7. Termination
+
+   Any violation of the terms of this license will result in the immediate
+   and automatic termination of the rights granted herein.
