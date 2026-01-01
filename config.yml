@@ -1,0 +1,39 @@
+# File di configurazione per il Word Processor
+
+ui_settings:
+  sound_enabled_on_startup: false
+  # ⏎  U+23CE - Return Symbol
+  # ↩  U+21A9 - Leftwards Arrow with Hook
+  # ⎆  U+2386 - Enter Symbol
+  # ⮐  U+2B90 - Return Left
+  # ⌤  U+2324 - Up Arrowhead Between Two Horizontal Bars
+  # ↵  U+21B5 - Default
+  # Il simbolo da usare per rappresentare il tasto Invio.
+  # Usa virgolette per assicurare che venga letto come stringa.
+  enter_symbol: "\u21B5"
+  # Font per i menu e le finestre di dialogo (popover)
+  # Assicurati di usare un nome di font installato sul tuo sistema.
+  menu_font_family: "JetBrains Mono"
+
+  # Dimensione del font per i menu (solo il numero). L'unità 'pt' verrà aggiunta dal codice.
+  menu_font_size: 10
+
+  # Font predefinito per l'area di testo principale all'avvio.
+  # Assicurati di usare un nome di font installato sul tuo sistema.
+  editor_font_family: "IBM Plex Mono"
+
+  # Dimensione predefinita del font per l'area di testo.
+  editor_font_size: 13
+
+groq_api:
+  api_key: "INSERISCI_QUI_LA_TUA_CHIAVE_API"
+  url: "https://api.groq.com/openai/v1/chat/completions"
+  model: "llama-3.3-70b-versatile"
+
+
+languagetool:
+  # La porta su cui il server LanguageTool si metterà in ascolto.
+  port: 8081
+
+  # Inserisci qui il percorso della directory di installazione di LanguageTool.
+  path: "/usr/share/languagetool"
