@@ -1,4 +1,4 @@
-# PC-1-Text
+# A1-Text
 
 Un text editor scritto in Ruby ispirato a C1-Text per Amiga, focalizzato a semplificare al massimo la digitazione.
 
