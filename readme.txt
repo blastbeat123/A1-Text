@@ -1,5 +1,3 @@
-🇬🇧 English | 🇮🇹 Italiano (README.it.md)
-
 # A1-Text
 
 A1-Text is an experimental text editor written in Ruby and GTK4, inspired by C1-Text for Amiga.
@@ -153,12 +151,12 @@ The repository contains:
 - **Included fonts**: IBMPlexMono-Regular, JetBrainsMono-Regular, Prototype, Topaz_a1200_v1.0
 - **AI configuration files**: `robot.txt` and `ai.txt` for AI bot control
 - **Substitution table**: `replacement.txt` for automatic word substitutions
-- **Configuration**: `config.yml` for application settings
-- **Audio files**: `click.wav` and `click2.wav`
+- **Configuration**: `config.yml for application settings
+- **Audio files**:` click.wav` and `click2.wav`
 
 ## License
 
-This software is released under a **custom source-available license** (**LicenseRef-blastbeat-NC-NoAI-CodebergRef-2025**).
+This software is released under a **custom source-available license**(**LicenseRef-blastbeat-NC-NoAI-CodebergRef-2025**).
 
 **This project is NOT Open Source according to the Open Source Initiative (OSI) definition.**
 
@@ -172,8 +170,8 @@ Copyright © 2025 blastbeat
 
 For full and legally binding terms, see:
 
-- `LICENSE`
-- `LICENSE.spdx`
+LICENSE
+LICENSE.spdx
 
 ## Project status
 
