@@ -4,6 +4,8 @@ SPDX-License-Identifier: LicenseRef-blastbeat-NC-NoAI-CodebergRef-2025
 🇮🇹 VERSIONE ITALIANA
 Licenza d’uso del software
 
+In caso di discrepanze, prevale la versione in lingua inglese.
+
 Copyright © 2025 blastbeat
 Tutti i diritti riservati.
 
@@ -63,7 +65,6 @@ secondo la definizione dell’Open Source Initiative (OSI).
 Software License
 
 In case of discrepancies, the English version shall prevail.
-In caso di discrepanze, prevale la versione in lingua inglese.
 
 Copyright © 2025 blastbeat
 All rights reserved.
