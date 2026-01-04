@@ -62,6 +62,9 @@ secondo la definizione dell’Open Source Initiative (OSI).
 🇬🇧 ENGLISH VERSION
 Software License
 
+In case of discrepancies, the English version shall prevail.
+In caso di discrepanze, prevale la versione in lingua inglese.
+
 Copyright © 2025 blastbeat
 All rights reserved.
 
