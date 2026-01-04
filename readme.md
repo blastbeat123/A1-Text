@@ -170,5 +170,8 @@ Per i termini completi e legalmente vincolanti, consultare i file:
 
 ## Stato del progetto
 
-Il progetto è in sviluppo attivo.
-Feedback, segnalazioni e discussioni sono benvenute.
+A1-Text è un progetto personale sviluppato nel tempo libero.
+
+Gli aggiornamenti possono essere irregolari e non esiste una roadmap pubblica.
+Segnalazioni e feedback sono benvenuti, ma senza aspettative su tempi o supporto.
+
