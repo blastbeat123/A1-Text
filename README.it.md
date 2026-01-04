@@ -1,3 +1,5 @@
+🇮🇹 Italiano | 🇬🇧 English (README.md)
+
 # A1-Text
 
 A1-Text è un text editor sperimentale scritto in Ruby e GTK4, ispirato a C1-Text per Amiga.
