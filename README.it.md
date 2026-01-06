@@ -170,6 +170,10 @@ Per i termini completi e legalmente vincolanti, consultare i file:
 - `LICENSE`
 - `LICENSE.spdx`
 
+## Note di progettazione
+
+Le scelte progettuali e le motivazioni sono documentate in [`DESIGN.md`](DESIGN.md).
+
 ## Stato del progetto
 
 A1-Text è un progetto personale sviluppato nel tempo libero.

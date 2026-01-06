@@ -21,8 +21,9 @@ require 'yaml'
 require 'gosu'
 
 class GrammarChecker
-  def initialize(host: 'localhost', port: 8081)
+  def initialize(host: 'localhost', port: 8081, language: 'en-US')
     @uri = URI("http://#{host}:#{port}/v2/check")
+    @language = language
   end
 
   def check_text(text)
@@ -30,7 +31,7 @@ class GrammarChecker
 
     request = Net::HTTP::Post.new(@uri)
     request.set_form_data({
-      'language' => 'it',
+      'language' => @language,
       'text' => text
     })
 
@@ -112,6 +113,7 @@ class Wordprocessor
   LANGUAGETOOL_PORT_DEFAULT = CONFIG.dig('languagetool', 'port') || 8081
   # Estrai il percorso di LanguageTool con un default
   LANGUAGETOOL_PATH = CONFIG.dig('languagetool', 'path') || '/usr/share/languagetool'
+  LANGUAGETOOL_LANGUAGE_DEFAULT = CONFIG.dig('languagetool', 'language') || 'en-US'
   
   def initialize
     @app = Gtk::Application.new('it.blastbeat.wordprocessor', Gio::ApplicationFlags::FLAGS_NONE)
@@ -182,7 +184,12 @@ class Wordprocessor
     
 
 
-    @grammar_checker = GrammarChecker.new(port: @languagetool_port)
+    @languagetool_language = LANGUAGETOOL_LANGUAGE_DEFAULT
+
+    @grammar_checker = GrammarChecker.new(
+      port: @languagetool_port,
+      language: @languagetool_language
+    )
     @grammar_check_enabled = false
     @grammar_check_thread = nil
     @error_tags = {} # Usiamo un Hash per associare dati ai tag
@@ -1350,13 +1357,21 @@ end
  
   private
 
-  def update_window_title
-    base_title = "Text Editor by blastbeat"
-    file_part = @current_file_path ? " - #{File.basename(@current_file_path)}" : " - [Untitled]"
-    font_part = " - [#{@current_font_family}]"
-    ai_part = @ai_configured ? " - [AI: #{@groq_model}]" : ""
-    @root.set_title("#{base_title}#{file_part}#{font_part}#{ai_part}")
-  end
+def update_window_title
+  base_title = "Text Editor by blastbeat"
+  file_part = @current_file_path ? " - #{File.basename(@current_file_path)}" : " - [Untitled]"
+  font_part = " - [#{@current_font_family}]"
+
+  language_part = @languagetool_language ?
+    " - [LANG: #{@languagetool_language}]" : ""
+
+  ai_part = @ai_configured ?
+    " - [AI: #{@groq_model}]" : ""
+
+  @root.set_title(
+    "#{base_title}#{file_part}#{font_part}#{language_part}#{ai_part}"
+  )
+end
 
   def play_key_press_sound(keyval)
     return unless @sound_enabled

@@ -37,3 +37,17 @@ languagetool:
 
   # Inserisci qui il percorso della directory di installazione di LanguageTool.
   path: "/usr/share/languagetool"
+
+  # Lingua per il controllo grammaticale
+  # en-US  → Inglese americano  Default
+  # en-GB  → Inglese britannico
+  # Italiano it
+  # Francese fr
+  # Tedesco  de-DE
+  # Spagnolo es
+  # Portoghese pt-PT  → Portogallo pt-BR  → Brasile
+  # Olandese nl
+  # Polacco pl
+  # Russo ru
+  #
+  language: en-US

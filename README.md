@@ -175,6 +175,10 @@ For full and legally binding terms, see:
 - `LICENSE`
 - `LICENSE.spdx`
 
+## Design notes
+
+Design decisions and rationale are documented in [`DESIGN.md`](DESIGN.md).
+
 ## Project status
 
 A1-Text is a personal side project developed in spare time.
