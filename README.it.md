@@ -111,7 +111,7 @@ Copiare i font imclusi nella cartella `~/.fonts`
 
 ### Configurazione LanguageTool
 
-Il programma cerca LanguageTool in `/usr/share/languagetool`. Qualora il percorso di installazione sia diverso nella vostra distribuzione, modificatelo nel file `config.yml`. Se necessario è possibile modificare anche il numero della porta del server.
+Il programma cerca LanguageTool in `/usr/share/languagetool` e imposta la lingua a `en-US` Qualora il percorso di installazione nella vostra distribuzione sia diverso e/o desiderate una lingua diversa, modificate le relative voci nel file `config.yml`. Se necessario è possibile modificare anche il numero della porta del server.
 
 ## Configurazione
 

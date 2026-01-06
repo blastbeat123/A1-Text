@@ -103,7 +103,7 @@ export GEM_PATH="$GEM_HOME:/path/to/system/gems"
 export PATH="$HOME/.gem/bin:$PATH"
 ```
 
-From a terminal, in the same directory as the program and the `gemfile`, run:
+From a terminal, in the same directory as the program and the `Gemfile`, run:
 
 ```bash
 bundle install
@@ -115,7 +115,7 @@ Copy the included fonts into the `~/.fonts` directory.
 
 ### LanguageTool configuration
 
-The program looks for LanguageTool in `/usr/share/languagetool`. If LanguageTool is installed in a different location on your distribution, update the path in the `config.yml` file. If necessary, the server port can also be changed there.
+The program searches for LanguageTool in `/usr/share/languagetool` and sets the language to `en-US`. If the installation path in your distribution is different and/or you want a different language, edit the relevant entries in the `config.yml` file. If necessary, you can also change the server port number.
 
 ## Configuration
 
