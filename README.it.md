@@ -8,6 +8,8 @@ A1-Text è un text editor sperimentale scritto in Ruby e GTK4, ispirato a C1-Tex
 intervenendo **in tempo reale** sulla punteggiatura, sulla capitalizzazione
 e sul flusso del testo, invece di correggere dopo.
 
+![Intelligent punctuation demo](media/punctuation.gif)
+
 ## Filosofia del progetto
 
 La maggior parte dei word processor moderni applica regole statiche
