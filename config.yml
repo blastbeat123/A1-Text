@@ -11,6 +11,12 @@ ui_settings:
   # Il simbolo da usare per rappresentare il tasto Invio.
   # Usa virgolette per assicurare che venga letto come stringa.
   enter_symbol: "\u21B5"
+  # Lingua interfaccia utente
+  # Valori supportati:
+  # en → English (default)
+  # it → Italiano
+  language: en
+
   # Font per i menu e le finestre di dialogo (popover)
   # Assicurati di usare un nome di font installato sul tuo sistema.
   menu_font_family: "JetBrains Mono"

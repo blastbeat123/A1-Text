@@ -20,6 +20,30 @@ require 'httpx'
 require 'yaml'
 require 'gosu'
 
+class I18n
+  def initialize(lang: 'en')
+    @lang = lang
+    @data = load_locale(lang)
+    @fallback = load_locale('en')
+  end
+
+  def t(key)
+    key.split('.').reduce(@data) { |h, k| h[k] } ||
+      key.split('.').reduce(@fallback) { |h, k| h[k] } ||
+      key
+  rescue
+    key
+  end
+
+  private
+
+  def load_locale(lang)
+    YAML.load_file(File.join('locales', "#{lang}.yml"))
+  rescue
+    {}
+  end
+end
+
 class GrammarChecker
   def initialize(host: 'localhost', port: 8081, language: 'en-US')
     @uri = URI("http://#{host}:#{port}/v2/check")
@@ -126,6 +150,9 @@ class Wordprocessor
       css_provider,
       Gtk::StyleProvider::PRIORITY_APPLICATION
     )
+    
+    @ui_language = CONFIG.dig('ui_settings', 'language') || 'en'
+    @i18n = I18n.new(lang: @ui_language)    
     
     # Imposta uno stato predefinito per le funzionalità AI
     @ai_configured = false
@@ -404,7 +431,7 @@ when "Tab"
   unless @current_file_path
     show_save_before_action_dialog(
       action_type,
-      "Documento non salvato",
+      @i18n.t("ui.dialogs.unsaved_title"),
       "Il documento contiene modifiche non salvate.\n\nVuoi salvare prima di #{action_type == :quit ? 'uscire' : (action_type == :open ? 'aprire un altro file' : 'creare un nuovo documento')}?"
     )
     return
@@ -599,9 +626,9 @@ end
     
     # Mostra la notifica appropriata
     if word_replaced
-      show_replacement_notification_popover("sostituita parola - inserito spazio")
+      show_replacement_notification_popover(@i18n.t('ui.notifications.word_replaced_space'))
     else
-      show_replacement_notification_popover("inserito spazio")
+      show_replacement_notification_popover(@i18n.t('ui.notifications.space_inserted'))
     end
     
     true
@@ -631,7 +658,7 @@ end
       @capitalize_next = false
       @after_period = false
       
-      show_replacement_notification_popover("lettera maiuscola")
+      show_replacement_notification_popover(@i18n.t('ui.notifications.capital_letter'))
       puts "Lettera maiuscola inserita"
       return true
     end
@@ -651,7 +678,7 @@ end
       
       if buffer.get_text(space_iter, next_iter, false) == ' '
         buffer.delete(space_iter, next_iter)
-        show_replacement_notification_popover("rimosso spazio")
+        show_replacement_notification_popover(@i18n.t('ui.notifications.space_removed'))
         puts "Spazio dopo il punto rimosso"
       end
     end
@@ -702,7 +729,7 @@ end
     buffer.insert(word_start_iter, final_word)
     buffer.end_user_action
     
-    show_replacement_notification_popover("sostituita parola")
+    show_replacement_notification_popover(@i18n.t('ui.notifications.word_replaced'))
     
     puts "Sostituito '#{word}' con '#{final_word}' (sostituzione normale)"
   end
@@ -740,21 +767,21 @@ end
   def setup_menu_bar
     menu_model = Gio::Menu.new
     file_submenu = Gio::Menu.new
-    file_submenu.append('New', 'app.new') # Aggiungi la voce New
-    file_submenu.append('Open', 'app.open')
-    file_submenu.append('Save', 'app.save')
-    file_submenu.append('Save As', 'app.save_as')
-    file_submenu.append('Toggle Autosave 5 min', 'app.toggle_autosave')
-    file_submenu.append('Exit', 'app.quit')
-    menu_model.append_submenu('File', file_submenu)
+    file_submenu.append(@i18n.t('ui.menu.new'), 'app.new')
+    file_submenu.append(@i18n.t('ui.menu.open'), 'app.open')
+    file_submenu.append(@i18n.t('ui.menu.save'), 'app.save')
+    file_submenu.append(@i18n.t('ui.menu.save_as'), 'app.save_as')
+    file_submenu.append(@i18n.t('ui.menu.toggle_autosave'), 'app.toggle_autosave')
+    file_submenu.append(@i18n.t('ui.menu.exit'), 'app.quit')
+    menu_model.append_submenu(@i18n.t('ui.menu.file'), file_submenu)
     format_submenu = Gio::Menu.new
-    format_submenu.append('Select Font...', 'app.select_font')
-    menu_model.append_submenu('Format', format_submenu)
+    format_submenu.append(@i18n.t('ui.menu.select_font'), 'app.select_font')
+    menu_model.append_submenu(@i18n.t('ui.menu.format'), format_submenu)
     ai_submenu = Gio::Menu.new
-    ai_submenu.append('Sinonimo/Synonymous', 'app.ai_sinonimo')
-    ai_submenu.append('Migliora testo/Improve text', 'app.ai_migliora')
-    ai_submenu.append('Riscrivi testo/Rewrite text', 'app.ai_riscrivi')
-    ai_submenu.append('Arrichisci testo/Enrich text', 'app.ai_arrichisci')
+    ai_submenu.append('Sinonimo', 'app.ai_sinonimo')
+    ai_submenu.append('Migliora testo', 'app.ai_migliora')
+    ai_submenu.append('Riscrivi testo', 'app.ai_riscrivi')
+    ai_submenu.append('Arrichisci testo', 'app.ai_arrichisci')
     menu_model.append_submenu('AI', ai_submenu)
     settings_submenu = Gio::Menu.new
     settings_submenu.append('Enable Word Replacement', 'app.toggle_replacement')
@@ -1363,7 +1390,7 @@ def update_window_title
   font_part = " - [#{@current_font_family}]"
 
   language_part = @languagetool_language ?
-    " - [LANG: #{@languagetool_language}]" : ""
+    " - [GRAMMAR: #{@languagetool_language}]" : ""
 
   ai_part = @ai_configured ?
     " - [AI: #{@groq_model}]" : ""
@@ -1455,7 +1482,7 @@ end
     original_title = @root.title
     
     # Testo della notifica
-    prefix = is_autosave ? "AUTOSAVE" : "MEMORIZZATO DOCUMENTO"
+    prefix = is_autosave ? "AUTOSAVE" : @i18n.t('ui.dialogs.document_saved')
     notification_title = "#{prefix}: #{File.basename(file_path)} - #{original_title}"
     
     # Mostra notifica

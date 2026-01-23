@@ -1,0 +1,33 @@
+ui:
+  menu:
+    file: File
+    new: Nuovo
+    open: Apri
+    save: Salva
+    save_as: Salva come
+    toggle_autosave: Attiva Salvataggio Automatico 5m
+    exit: Esci
+
+    format: Formato
+    select_font: Seleziona Font...
+
+    ai: IA
+    ai_synonym: Sinonimo
+    ai_improve: Migliora testo
+    ai_rewrite: Riscrivi testo
+    ai_enrich: Arricchisci testo
+
+    settings: Impostazioni
+    enable_replacement: Abilita Sostituzione Parole
+    enable_completion: Abilita Completamento
+    enable_sound: Abilita Suono
+    enable_grammar: Abilita Controllo Grammaticale
+    show_replacements: ostra Elenco Sostituzioni...
+    cleanup_autosaves: Pulisci salvataggi automatici...
+
+  notifications:
+    word_replaced: sostituita parola
+    space_inserted: inserito spazio
+    word_replaced_space: sostituita parola - inserito spazio
+    space_removed: rimosso spazio
+    capital_letter: inserita maiuscola

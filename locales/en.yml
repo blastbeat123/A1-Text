@@ -1,0 +1,48 @@
+ui:
+  menu:
+    file: File
+    new: New
+    open: Open
+    save: Save
+    save_as: Save As
+    toggle_autosave: Toggle Autosave 5 mim
+    exit: Exit
+
+    format: Format
+    select_font: Select Font...
+
+    ai: AI
+    ai_synonym: Synonym
+    ai_improve: Improve text
+    ai_rewrite: Rewrite text
+    ai_enrich: Enrich text
+
+    settings: Settings
+    enable_replacement: Enable Word Replacement
+    enable_completion: Enable Completion
+    enable_sound: Enable Sound
+    enable_grammar: Enable Grammar Check
+    show_replacements: Show Replacements List...
+    cleanup_autosaves: Cleanup autosaves...
+
+  notifications:
+    word_replaced: word replaced
+    space_inserted: space inserted
+    word_replaced_space: word replaced_space
+    space_removed: space removed
+    capital_letter: capital letter
+
+  dialogs:
+    unsaved_title: Unsaved Document
+    unsaved_message: The document contains unsaved changes.\n\nDo you want to save before %{action}?
+    modified_title: Unsaved Changes
+    modified_message: The file '%{filename}' has been modified.\n\nDo you want to save before %{action}?
+
+    cancel: Cancel
+    no: No
+    yes: Yes
+    ok: OK
+    close: Close
+    save: Save
+
+    document_saved: DOCUMENT SAVED
