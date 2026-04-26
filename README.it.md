@@ -1,61 +1,21 @@
-🇮🇹 Italiano | 🇬🇧 English (README.md)
-
 # A1-Text
 
-A1-Text è un text editor sperimentale scritto in Ruby e GTK4, ispirato a C1-Text per Amiga.
+Un text editor scritto in Ruby ispirato a C1-Text per Amiga, focalizzato a semplificare al massimo la digitazione.
 
-È progettato per rendere la digitazione più fluida e naturale possibile,
-intervenendo **in tempo reale** sulla punteggiatura, sulla capitalizzazione
-e sul flusso del testo, invece di correggere dopo.
+## Funzionalità
 
-![Intelligent punctuation demo](media/punctuation.gif)
-
-## Filosofia del progetto
-
-La maggior parte dei word processor moderni applica regole statiche
-alla punteggiatura e alla digitazione.
-
-PC-1-Text adotta un approccio diverso:
-intercetta i tasti e il contesto mentre si scrive,
-per adattare il comportamento del testo al flusso naturale della lingua.
-
-Non è pensato per l’impaginazione,
-ma per la scrittura narrativa e fluida.
-
-
-## Funzionalità principali
-
-### Scrittura e digitazione
-- Punteggiatura automatica contestuale
-- Capitalizzazione intelligente
-- Gestione dei dialoghi con virgolette tipografiche
-- Visualizzazione dei ritorni a capo
-
-### Supporto alla scrittura
-- Sostituzioni automatiche delle parole
-- Completamento delle parole
-- Controllo grammaticale (LanguageTool)
-
-### Sistema
-- Caricamento e salvataggio di testo normale (.txt)
+- Carica e salva solo testo normale (.txt)
 - Autosave ogni 5 minuti
+- Controllo grammaticale
 - Selezione dei font
+- Sostituzioni e completamento delle parole
+- Funzionalità AI per migliorare il testo
 - Suoni dei tasti
 
-### Funzionalità opzionali
-- Funzioni AI per migliorare il testo (disattivabili)
+## Comportamento
 
-## Comportamento distintivo
-
-### Punteggiatura intelligente
-
-- Dopo i segni di punteggiatura viene inserito automaticamente uno spazio
-- Dopo il punto (`.`) la parola successiva viene capitalizzata
-- Se dopo un punto o una virgoletta di chiusura (`»`) si preme `Enter`,
-  lo spazio viene automaticamente rimosso
-
-Questo comportamento è pensato per facilitare
-la scrittura di dialoghi e testo narrativo senza interrompere il flusso.
+### Punteggiatura automatica
+In automatico viene aggiunto uno spazio dopo i segni di punteggiatura. Se il segno è il punto "." viene aggiunto uno spazio e la prima lettera della parola seguente viene capitalizzata. Se dopo il punto o le virgolette tipografiche chiuse di un dialogo si preme il tasto Enter, lo spazio viene rimosso.
 
 ### Visualizzazione
 I tasti Enter vengono visualizzati con un simbolo.
@@ -89,7 +49,9 @@ parola_da_sostituire <spazio> parola
 - `gosu`
 
 ### API per funzionalità AI
-Per le funzionalità AI occorre una API scaricabile gratuitamente dal sito https://groq.com/ e inserirla nel file `config.yml` insieme al modello desiderato (default: llama-3.3-70b-versatile)
+Per le funzionalità AI (groq) occorre una API scaricabile gratuitamente dal sito https://groq.com/ e inserirla nel file `config.yml` insieme al modello desiderato (default: llama-3.3-70b-versatile)
+
+Per Gemini (modello Gemini-3-flash-preview) scaricare l'API gratuita dal sito https://aistudio.google.com/ e inserirla nel file `config.yml`.
 
 ## Installazione
 
@@ -99,6 +61,7 @@ Aggiungere queste righe al file `.bashrc`:
 
 ```bash
 export GEM_HOME="$HOME/.gem"
+export GEM_PATH="$GEM_HOME:/percorso/delle proprie/gemme/di sistema"
 export PATH="$HOME/.gem/bin:$PATH"
 ```
 
@@ -112,7 +75,7 @@ Copiare i font imclusi nella cartella `~/.fonts`
 
 ### Configurazione LanguageTool
 
-Il programma cerca LanguageTool in `/usr/share/languagetool` e imposta la lingua a `en-US` Qualora il percorso di installazione nella vostra distribuzione sia diverso e/o desiderate una lingua diversa, modificate le relative voci nel file `config.yml`. Se necessario è possibile modificare anche il numero della porta del server.
+Il programma cerca LanguageTool in `/usr/share/languagetool`. Qualora il percorso di installazione sia diverso nella vostra distribuzione, modificatelo nel file `config.yml`. Se necessario è possibile modificare anche il numero della porta del server.
 
 ## Configurazione
 
@@ -171,14 +134,4 @@ Per i termini completi e legalmente vincolanti, consultare i file:
 - `LICENSE`
 - `LICENSE.spdx`
 
-## Note di progettazione
-
-Le scelte progettuali e le motivazioni sono documentate in [`DESIGN.md`](DESIGN.md).
-
-## Stato del progetto
-
-A1-Text è un progetto personale sviluppato nel tempo libero.
-
-Gli aggiornamenti possono essere irregolari e non esiste una roadmap pubblica.
-Segnalazioni e feedback sono benvenuti, ma senza aspettative su tempi o supporto.
 
