@@ -25,6 +25,12 @@ ui:
     show_replacements: Show Replacements List...
     cleanup_autosaves: Cleanup autosaves...
 
+
+  actions:
+    quit: quitting
+    open: opening another file
+    new: create a new document
+
   notifications:
     word_replaced: word replaced
     space_inserted: space inserted
@@ -34,9 +40,12 @@ ui:
 
   dialogs:
     unsaved_title: Unsaved Document
-    unsaved_message: The document contains unsaved changes.\n\nDo you want to save before %{action}?
+    unsaved_message: "The document contains unsaved changes.\n\nDo you want to save before %{action}?"
     modified_title: Unsaved Changes
-    modified_message: The file '%{filename}' has been modified.\n\nDo you want to save before %{action}?
+    modified_message: "The document '%{filename}' has been modified.\n\nDo you want to save before %{action}?"
+    modified_message2: "The file may contain unsaved changes.\n\nDo you want to save before %{action}?"
+
+
 
     cancel: Cancel
     no: No

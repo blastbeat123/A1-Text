@@ -99,6 +99,15 @@ class Wordprocessor
     CONFIG = {}
   end
 
+  # Prompt AI (con valori di default sicuri)
+  AI_PROMPTS = {
+    sinonimo_prompt:    CONFIG.dig('ai_prompts', 'sinonimo_prompt')    || 'Find a synonym for the following word/phrase:',
+    migliora_prompt:    CONFIG.dig('ai_prompts', 'migliora_prompt')    || 'Improve the following text making it clearer and more fluent:',
+    riscrivi_prompt:    CONFIG.dig('ai_prompts', 'riscrivi_prompt')    || 'Rewrite the following text differently, keeping the same meaning:',
+    arricchisci_prompt: CONFIG.dig('ai_prompts', 'arricchisci_prompt') || 'Enrich the following text adding details and making it more descriptive:',
+    default_prompt:     CONFIG.dig('ai_prompts', 'default_prompt')     || 'Process the following text:'
+  }.freeze
+
   # Font dei menu (con valori di default sicuri)
   MENU_FONT_FAMILY = CONFIG.dig('ui_settings', 'menu_font_family') || 'monospace'
   MENU_FONT_SIZE   = CONFIG.dig('ui_settings', 'menu_font_size')   || 10
@@ -140,9 +149,18 @@ class Wordprocessor
   LANGUAGETOOL_LANGUAGE_DEFAULT = CONFIG.dig('languagetool', 'language') || 'en-US'
 
   def initialize
+    setup_application_core
+    setup_i18n_and_language
+    initialize_state_variables
+    setup_external_services
+    setup_activation_handler
+    @app.run
+  end
+
+  # 📦 1. Configurazione base GTK e CSS globale
+  def setup_application_core
     @app = Gtk::Application.new('it.blastbeat.wordprocessor', Gio::ApplicationFlags::FLAGS_NONE)
 
-    # Carica il CSS personalizzato globalmente
     css_provider = Gtk::CssProvider.new
     css_provider.load_from_data(CUSTOM_CSS)
     Gtk::StyleContext.add_provider_for_display(
@@ -150,96 +168,111 @@ class Wordprocessor
       css_provider,
       Gtk::StyleProvider::PRIORITY_APPLICATION
     )
+  end
 
+  # 🌐 2. Internazionalizzazione
+  def setup_i18n_and_language
     @ui_language = CONFIG.dig('ui_settings', 'language') || 'en'
     @i18n = I18n.new(lang: @ui_language)
+  end
 
-   # Configurazione Multi-AI
-     @ai_providers = {}
-     @current_ai_provider = nil
-     setup_ai_providers
-
-    @languagetool_port = LANGUAGETOOL_PORT_DEFAULT # Imposta la variabile d'istanza
-
+  # 📝 3. Inizializzazione variabili di stato predefinite
+  def initialize_state_variables
+    # Font & UI
     @current_font_family = 'IBM Plex Mono'
     @current_font_size = 13
+    @current_font_provider = nil
+    @preview_font_provider = nil
 
+    # Completamento parole
     @word_completion_popover = nil
     @word_completion_listbox = nil
     @word_completion_active = false
-    @word_completion_enabled = false # <-- RIGA AGGIUNTA
-    @completion_timeout_id = nil # <-- RIGA AGGIUNTA
+    @word_completion_enabled = false
+    @completion_timeout_id = nil
 
+    # Sostituzioni & Capitalizzazione
     @replacements = {}
     @replacement_enabled = true
-    @capitalize_next = false # Flag per capitalizzare la prossima lettera
-    @after_period = false # Flag per gestire il comportamento dopo il punto
-    @last_period_position = nil # Posizione dell'ultimo punto inserito
+    @capitalize_next = false
+    @after_period = false
+    @last_period_position = nil
+    @replacement_popover = nil
+    @replacement_timeout_id = nil
 
-    load_replacements
-
-    @sound_enabled = false
-    sound_file_path = 'click.wav'
-    sound_file_path2 = 'click2.wav'
-
-    @sound_player = SoundPlayer.new(sound_file_path)
-    @notification_sound = SoundPlayer.new(sound_file_path2)
-
-    # Variabili per autosave
+    # Autosave
     @autosave_enabled = false
     @autosave_timeout_id = nil
 
-    @replacement_popover = nil
-    @replacement_timeout_id = nil  # AGGIUNGI QUESTA RIGA
-
-    #@replacement_notification = nil
+    # Tasti muti per il player audio
     @nosound_keys = [
       "Shift_L", "Shift_R", "Control_L", "Control_R",
       "Alt_L", "Alt_R", "Super_L", "Super_R", "ISO_Level3_Shift",
       "Left", "Right", "Up", "Down"
     ].map { |name| Gdk::Keyval.from_name(name) }
 
+    # Grammatica & Errori
+    @error_tags = {}
+    @grammar_check_enabled = false
+    @grammar_check_thread = nil
+  end
 
+  # 🤖📚🔊 4. Caricamento servizi esterni (AI, Dizionario, Audio)
+  def setup_external_services
+    # AI
+    @ai_providers = {}
+    @current_ai_provider = nil
+    setup_ai_providers
 
+    # Sostituzioni
+    load_replacements
+
+    # Audio
+    @sound_enabled = false
+    @sound_player = SoundPlayer.new('click.wav')
+    @notification_sound = SoundPlayer.new('click2.wav')
+
+    # LanguageTool
+    @languagetool_port = LANGUAGETOOL_PORT_DEFAULT
     @languagetool_language = LANGUAGETOOL_LANGUAGE_DEFAULT
-
     @grammar_checker = GrammarChecker.new(
       port: @languagetool_port,
       language: @languagetool_language
     )
-    @grammar_check_enabled = false
-    @grammar_check_thread = nil
-    @error_tags = {} # Usiamo un Hash per associare dati ai tag
+  end
 
-    @current_font_provider = nil
-    @preview_font_provider = nil
-
+  # 🪟 5. Gestione del ciclo di vita GTK (segnale 'activate')
+  def setup_activation_handler
     @app.signal_connect('activate') do |application|
       @languagetool_process = start_languagetool_server
-
-      @root = Gtk::ApplicationWindow.new(application)
-      @root.signal_connect('close-request') do
-        check_unsaved_changes(:quit)
-        true  # Blocca la chiusura predefinita - sarà gestita da perform_quit
-      end
-
-      @root.set_default_size(1200, 900)
-      @root.set_resizable(false)
-
-      @main_box = Gtk::Box.new(Gtk::Orientation::VERTICAL, 0)
-      @root.set_child(@main_box)
-
-      setup_menu_bar
-      setup_text_and_scrollbar
-      setup_context_menu
-      update_window_title
+      build_main_window(application)
+      build_interface_components
       start_autosave
-
       @root.show
     end
-
-    @app.run
   end
+
+  # 🖼️ 5a. Costruzione finestra principale
+  def build_main_window(application)
+    @root = Gtk::ApplicationWindow.new(application)
+    @root.signal_connect('close-request') do
+      check_unsaved_changes(:quit)
+      true
+    end
+    @root.set_default_size(1200, 900)
+    @root.set_resizable(false)
+    @main_box = Gtk::Box.new(Gtk::Orientation::VERTICAL, 0)
+    @root.set_child(@main_box)
+  end
+
+  # 🧩 5b. Assemblaggio componenti UI
+  def build_interface_components
+    setup_menu_bar
+    setup_text_and_scrollbar
+    setup_context_menu
+    update_window_title
+  end
+ 
 
   def setup_ai_providers
   puts "🤖 Configurazione provider AI..."
@@ -261,7 +294,7 @@ class Wordprocessor
 
   # Setup Gemini
   gemini_key = CONFIG.dig('google_api', 'api_key')
-  if gemini_key && !gemini_key.empty? && gemini_key != "ENTER YOUR API KEY HERE"
+  if gemini_key && !gemini_key.empty? && gemini_key != "INSERISCI_QUI_LA_TUA_CHIAVE_API"
     @ai_providers[:gemini] = {
       api_key: gemini_key,
       url_base: CONFIG.dig('google_api', 'url'),
@@ -359,10 +392,10 @@ end
 
     # Crea un modello di menu SOLO per le nostre azioni AI
     ai_extra_menu = Gio::Menu.new
-    ai_extra_menu.append('Sinonimo (Gemini)', 'app.gemini_sinonimo')
-    ai_extra_menu.append('Migliora testo (Gemini)', 'app.gemini_migliora')
-    ai_extra_menu.append('Riscrivi testo (Gemini)', 'app.gemini_riscrivi')
-    ai_extra_menu.append('Arrichisci testo (Gemini)', 'app.gemini_arrichisci')
+    ai_extra_menu.append("#{@i18n.t('ui.menu.ai_synonym')} (Gemini)",    'app.gemini_sinonimo')
+    ai_extra_menu.append("#{@i18n.t('ui.menu.ai_improve')} (Gemini)",    'app.gemini_migliora')
+    ai_extra_menu.append("#{@i18n.t('ui.menu.ai_rewrite')} (Gemini)",    'app.gemini_riscrivi')
+    ai_extra_menu.append("#{@i18n.t('ui.menu.ai_enrich')} (Gemini)",     'app.gemini_arrichisci')
 
     # Assegna questo menu come "menu extra" al context menu predefinito del TextView.
     # GTK si occuperà di aggiungerlo automaticamente.
@@ -371,7 +404,6 @@ end
 
   def handle_key_press(keyval, keycode, state)
     key_name = Gdk::Keyval.to_name(keyval)
-
     case key_name
     when "Return", "KP_Enter"
       handle_return_key
@@ -379,54 +411,46 @@ end
     when "guillemotright" # Virgolette chiuse »
       handle_closing_quote
       return true
-
-      when "Escape"
-  hide_word_completion
-  return true
-
-when "Tab"
-  if @word_completion_active && @word_completion_listbox
-    row = @word_completion_listbox.selected_row ||
-          @word_completion_listbox.get_row_at_index(0)
-
-    if row
-      apply_completion(row.child.text, get_current_word)
+    when "Escape"
       hide_word_completion
       return true
-    end
-  end
-  return false
-
-
-   when "Down"
-  if @word_completion_active && @word_completion_listbox
-    current_row = @word_completion_listbox.selected_row
-    if current_row
-      next_index = current_row.index + 1
-      next_row = @word_completion_listbox.get_row_at_index(next_index)
-      @word_completion_listbox.select_row(next_row) if next_row
-    end
-    return true  # ← Blocca comportamento default
-  end
-  return false
-
-    when "Up"
-    if @word_completion_active && @word_completion_listbox
-      current_row = @word_completion_listbox.selected_row
-      if current_row && current_row.index > 0
-        prev_index = current_row.index - 1
-        prev_row = @word_completion_listbox.get_row_at_index(prev_index)
-        @word_completion_listbox.select_row(prev_row) if prev_row
+    when "Tab"
+      if @word_completion_active && @word_completion_listbox
+        row = @word_completion_listbox.selected_row ||
+              @word_completion_listbox.get_row_at_index(0)
+        if row
+          apply_completion(row.child.text, get_current_word)
+          hide_word_completion
+          return true
+        end
       end
-      return true  # ← Blocca comportamento default
-    end
-    return false
-
+      return false
+    when "Down"
+      if @word_completion_active && @word_completion_listbox
+        current_row = @word_completion_listbox.selected_row
+        if current_row
+          next_index = current_row.index + 1
+          next_row = @word_completion_listbox.get_row_at_index(next_index)
+          @word_completion_listbox.select_row(next_row) if next_row
+        end
+        return true  # ← Blocca comportamento default
+      end
+      return false
+    when "Up"
+      if @word_completion_active && @word_completion_listbox
+        current_row = @word_completion_listbox.selected_row
+        if current_row && current_row.index > 0
+          prev_index = current_row.index - 1
+          prev_row = @word_completion_listbox.get_row_at_index(prev_index)
+          @word_completion_listbox.select_row(prev_row) if prev_row
+        end
+        return true  # ← Blocca comportamento default
+      end
+      return false
     when "question"  # Punto interrogativo ?
       return handle_question  # ← Usa il valore di ritorno del metodo
     when "exclam"  # Punto esclamativo !
       return handle_exclamation  # ← Usa il valore di ritorno del metodo
-
     when "period"
       return handle_period  # ← Usa il valore di ritorno del metodo
     when "comma"
@@ -446,24 +470,21 @@ when "Tab"
           return true
         end
       end
-
       # Reset dei flag per altri caratteri
       unless key_name == "Return" || key_name == "KP_Enter"
         @capitalize_next = false
       end
-
       return false
     end
   end
 
   def check_unsaved_changes(action_type)
-    buffer = @text.buffer
     content = get_clean_buffer_content
 
     if content.strip.empty?
       perform_action(action_type)
       return
-  end
+    end
 
 	# Recupera la stringa localizzata per l'azione specifica
    action_text = @i18n.t("ui.actions.#{action_type}")
@@ -828,20 +849,20 @@ if @ai_configured
   # Sottomenu Groq (se disponibile)
   if @ai_providers[:groq]
     groq_submenu = Gio::Menu.new
-    groq_submenu.append('Sinonimo', 'app.groq_sinonimo')
-    groq_submenu.append('Migliora testo', 'app.groq_migliora')
-    groq_submenu.append('Riscrivi testo', 'app.groq_riscrivi')
-    groq_submenu.append('Arricchisci testo', 'app.groq_arrichisci')
+    groq_submenu.append(@i18n.t('ui.menu.ai_synonym'),    'app.groq_sinonimo')
+    groq_submenu.append(@i18n.t('ui.menu.ai_improve'),    'app.groq_migliora')
+    groq_submenu.append(@i18n.t('ui.menu.ai_rewrite'),    'app.groq_riscrivi')
+    groq_submenu.append(@i18n.t('ui.menu.ai_enrich'),     'app.groq_arrichisci')
  ai_menu.append_submenu("🚀 #{@ai_providers[:groq][:name]}", groq_submenu)
   end
 
   # Sottomenu Gemini (se disponibile)
   if @ai_providers[:gemini]
     gemini_submenu = Gio::Menu.new
-    gemini_submenu.append('Sinonimo', 'app.gemini_sinonimo')
-    gemini_submenu.append('Migliora testo', 'app.gemini_migliora')
-    gemini_submenu.append('Riscrivi testo', 'app.gemini_riscrivi')
-    gemini_submenu.append('Arricchisci testo', 'app.gemini_arrichisci')
+    gemini_submenu.append(@i18n.t('ui.menu.ai_synonym'),    'app.gemini_sinonimo')
+    gemini_submenu.append(@i18n.t('ui.menu.ai_improve'),    'app.gemini_migliora')
+    gemini_submenu.append(@i18n.t('ui.menu.ai_rewrite'),    'app.gemini_riscrivi')
+    gemini_submenu.append(@i18n.t('ui.menu.ai_enrich'),     'app.gemini_arrichisci')
     ai_menu.append_submenu("✨ #{@ai_providers[:gemini][:name]}", gemini_submenu)
   end
 
@@ -1889,15 +1910,15 @@ end
   def get_prompt_prefix(ai_action)
     case ai_action
     when 'sinonimo'
-      "Trova un sinonimo per la seguente parola/frase:"
+      AI_PROMPTS[:sinonimo_prompt]
     when 'migliora testo'
-      "Migliora la seguente parte di testo rendendola più chiara e scorrevole:"
+      AI_PROMPTS[:migliora_prompt]
     when 'riscrivi testo'
-      "Riscrivi il seguente testo in modo diverso, mantenendo lo stesso significato:"
+      AI_PROMPTS[:riscrivi_prompt]
     when 'arrichisci testo'
-      "Arricchisci il seguente testo aggiungendo dettagli e rendendolo più descrittivo:"
+      AI_PROMPTS[:arricchisci_prompt]
     else
-      "Processa il seguente testo:"
+      AI_PROMPTS[:default_prompt]
     end
   end
 
@@ -2489,7 +2510,7 @@ class SoundPlayer
 
    def play_sound
     @sound&.play
-  end
+   end
 end
 
 Wordprocessor.new

@@ -99,7 +99,6 @@ Aggiungere queste righe al file `.bashrc`:
 
 ```bash
 export GEM_HOME="$HOME/.gem"
-export GEM_PATH="$GEM_HOME:/percorso/delle proprie/gemme/di sistema"
 export PATH="$HOME/.gem/bin:$PATH"
 ```
 

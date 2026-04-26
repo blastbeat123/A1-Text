@@ -22,8 +22,13 @@ ui:
     enable_completion: Abilita Completamento
     enable_sound: Abilita Suono
     enable_grammar: Abilita Controllo Grammaticale
-    show_replacements: ostra Elenco Sostituzioni...
+    show_replacements: Mostra Elenco Sostituzioni...
     cleanup_autosaves: Pulisci salvataggi automatici...
+
+  actions:
+    quit: uscire
+    open: aprire un altro file
+    new: creare un nuovo documento
 
   notifications:
     word_replaced: sostituita parola
@@ -31,3 +36,20 @@ ui:
     word_replaced_space: sostituita parola - inserito spazio
     space_removed: rimosso spazio
     capital_letter: inserita maiuscola
+
+  dialogs:
+    unsaved_title: Documento non salvato
+    unsaved_message: "Il documento contiene modifiche non salvate.\n\nVuoi salvare prima di %{action}?"
+    modified_title: Modifiche non salvate
+    modified_message: "Il documento '%{filename}' è stato modificato.\n\nVuoi salvare prima di %{action}?"
+    modified_message2: "Il file potrebbe contenere modifiche non salvate.\n\nVuoi salvare prima di %{action}?"
+
+
+    cancel: Annulla
+    no: No
+    yes: Si
+    ok: OK
+    close: Chiudi
+    save: Salva
+
+    document_saved: DOCUMENTO SALVATO

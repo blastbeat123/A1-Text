@@ -11,6 +11,7 @@ ui_settings:
   # Il simbolo da usare per rappresentare il tasto Invio.
   # Usa virgolette per assicurare che venga letto come stringa.
   enter_symbol: "\u21B5"
+
   # Lingua interfaccia utente
   # Valori supportati:
   # en → English (default)
@@ -31,10 +32,30 @@ ui_settings:
   # Dimensione predefinita del font per l'area di testo.
   editor_font_size: 13
 
+google_api:
+  api_key: "ENTER YOUR API KEY HERE"
+  url: "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent"
+  model: "Gemini-3-flash-preview"
+
 groq_api:
-  api_key: "INSERISCI_QUI_LA_TUA_CHIAVE_API"
+  api_key: "ENTER YOUR API KEY HERE"
   url: "https://api.groq.com/openai/v1/chat/completions"
   model: "llama-3.3-70b-versatile"
+
+ai_prompts:
+  # Prompt inviati all'AI — modificare per cambiare lingua o stile dell'istruzione.
+  # Le etichette dei menu si trovano invece nei file locales/ (es. it.yml).
+
+  # synonym
+  sinonimo_prompt:    "Find a synonym for the following word/phrase:"
+  # improve
+  migliora_prompt:    "Improve the following text making it clearer and more fluent:"
+  # rewrite
+  riscrivi_prompt:    "Rewrite the following text differently, keeping the same meaning:"
+  # enrich
+  arricchisci_prompt: "Enrich the following text adding details and making it more descriptive:"
+  #
+  default_prompt:     "Process the following text:"
 
 
 languagetool:

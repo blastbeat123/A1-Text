@@ -75,7 +75,7 @@ word_to_replace <space> replacement
 ## Dependencies
 
 ### Required software
-- Ruby 3.4
+- Ruby =>3.4
 - GTK4
 - LanguageTool
 - Java (required to run the LanguageTool server)
@@ -93,6 +93,8 @@ word_to_replace <space> replacement
 ### AI features API
 To enable AI features, an API key must be obtained for free from https://groq.com/ and added to the `config.yml` file together with the desired model (default: `llama-3.3-70b-versatile`).
 
+For Gemini (Gemini-3-flash-preview model), download the free API from https://aistudio.google.com/ and add it to your `config.yml` file.
+
 ## Installation
 
 ### Installing gems locally with Bundler
@@ -101,7 +103,6 @@ Add the following lines to your `.bashrc`:
 
 ```bash
 export GEM_HOME="$HOME/.gem"
-export GEM_PATH="$GEM_HOME:/path/to/system/gems"
 export PATH="$HOME/.gem/bin:$PATH"
 ```
 
